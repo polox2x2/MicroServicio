@@ -3,16 +3,7 @@
 Este proyecto está compuesto por tres microservicios independientes, diseñados para gestionar solicitudes de soporte dentro de un instituto.
 Incluye un API Gateway, que centraliza el acceso y administra las rutas entre servicios.
 
-
-Frontend / Cliente
-        ↓
-     Gateway  (8080)
-        ↓
- ┌───────────────────────────┬───────────────────────────┐
- │ Ticket Service (8094)     │ Notification Service (8095)
- │ Gestión de Tickets        │ Gestión de Notificaciones
- └───────────────────────────┴───────────────────────────┘
-
+![alt text](image.png)
 
 🧩 Microservicios incluidos
 1️⃣ Ticket Service
