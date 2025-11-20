@@ -12,4 +12,10 @@ public interface TicketRepositorio extends JpaRepository<Ticket, Integer> {
     List<Ticket> findByEstado(String estado);
 
     List<Ticket> findByEstudianteIdAndEstado(Integer estudianteId, String estado);
+
+    List<Ticket> findByEstadoOrderByPriorityDescFechaCreacionAsc(String estado);
+
+    List<Ticket> findAllByOrderByPriorityDescFechaCreacionAsc();
+
+    List<Ticket> findByFechaCreacionBetween(java.time.LocalDateTime start, java.time.LocalDateTime end);
 }

@@ -17,7 +17,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TicketController {
 
-
     private final TicketService ticketServicio;
 
     @PostMapping
@@ -29,8 +28,7 @@ public class TicketController {
     @GetMapping
     public List<Ticket> listar(
             @RequestParam(required = false) Integer estudianteId,
-            @RequestParam(required = false) String estado
-    ) {
+            @RequestParam(required = false) String estado) {
         return ticketServicio.listarTickets(estudianteId, estado);
     }
 
@@ -43,10 +41,41 @@ public class TicketController {
     @PatchMapping("/{id}/estado")
     public ResponseEntity<Ticket> actualizarEstado(
             @PathVariable Integer id,
-            @Valid @RequestBody TicketUpdateStatusRequestDTO dto
-    ) {
+            @Valid @RequestBody TicketUpdateStatusRequestDTO dto) {
         Ticket actualizado = ticketServicio.actualizarEstado(id, dto);
         return ResponseEntity.ok(actualizado);
+    }
+
+    @PutMapping("/{id}/assign")
+    public ResponseEntity<Ticket> asignarTicket(
+            @PathVariable Integer id,
+            @RequestParam Integer advisorId) {
+        Ticket asignado = ticketServicio.asignarTicket(id, advisorId);
+        return ResponseEntity.ok(asignado);
+    }
+
+    @PostMapping("/{id}/interactions")
+    public ResponseEntity<com.institute.ticketservice.ticket.model.TicketInteraction> agregarInteraccion(
+            @PathVariable Integer id,
+            @Valid @RequestBody com.institute.ticketservice.ticket.dto.TicketInteractionCreateRequestDTO dto) {
+        com.institute.ticketservice.ticket.model.TicketInteraction interaction = ticketServicio.agregarInteraccion(id,
+                dto);
+        return ResponseEntity.ok(interaction);
+    }
+
+    @GetMapping("/{id}/interactions")
+    public ResponseEntity<List<com.institute.ticketservice.ticket.model.TicketInteraction>> obtenerInteracciones(
+            @PathVariable Integer id) {
+        List<com.institute.ticketservice.ticket.model.TicketInteraction> interacciones = ticketServicio
+                .obtenerInteracciones(id);
+        return ResponseEntity.ok(interacciones);
+    }
+
+    @GetMapping("/report-data")
+    public ResponseEntity<List<Ticket>> obtenerDatosReporte(
+            @RequestParam @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+            @RequestParam @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
+        return ResponseEntity.ok(ticketServicio.obtenerTicketsPorRango(start, end));
     }
 
 }

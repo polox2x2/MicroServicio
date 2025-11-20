@@ -2,23 +2,63 @@ server:
   port: 8080
 
 spring:
-
   application:
     name: microservice-gateway
 
   cloud:
     gateway:
       routes:
+        - id: auth_route
+          uri: "http://crm-backend:8000"
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - RewritePath=/api/auth/(?<segment>.*), /$\{segment}
+
         - id: ticket-service
-          uri: http://localhost:8094
+          uri: "http://ticket-service:8094"
           predicates:
             - Path=/api/tickets/**
 
         - id: notification-service
-          uri: http://localhost:8095
+          uri: "http://notification-service:8095"
           predicates:
             - Path=/api/notifications/**
 
+        - id: enrollments-service
+          uri: "http://enrollment-service:3030"
+          predicates:
+              - Path=/api/enrollments/**
+          filters:
+            - StripPrefix=1
+
+        - id: course-service
+          uri: "http://course-service:3000"
+          predicates:
+            - Path=/api/course/**,/api/teacher-assignment/**
+          filters:
+            - StripPrefix=1
+
+        - id: report-service
+          uri: "http://report-service:3032"
+          predicates:
+            - Path=/api/metric/**,/api/report/**
+          filters:
+            - StripPrefix=1
+
+        - id: grade-service
+          uri: "http://grade-service:3033"
+          predicates:
+            - Path=/api/grades/**,/api/evaluation/**
+          filters:
+            - StripPrefix=1
+
+        - id: crm_backend
+          uri: "http://crm-backend:8000"
+          predicates:
+            - Path=/api/crm/**
+          filters:
+            - StripPrefix=2
 
   globalcors:
     corsConfigurations:
@@ -41,4 +81,9 @@ spring:
           - "Content-Type"
         allowCredentials: true
 
-
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+    org.springframework.cloud.gateway: DEBUG
+    com.microservice.gateway: DEBUG
