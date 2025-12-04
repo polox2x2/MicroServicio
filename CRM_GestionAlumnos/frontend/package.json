@@ -1,0 +1,19 @@
+{
+  "name": "crm-gestion-alumnos-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "rsbuild dev",
+    "build": "rsbuild build",
+    "preview": "rsbuild preview"
+  },
+  "dependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@rsbuild/core": "^1.5.17",
+    "@rsbuild/plugin-react": "^1.4.1",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,21 @@
+# --- Archivos sensibles ---
+# ¡El más importante! Ignora todos los archivos .env
+**/.env
+
+# --- Dependencias de Frontend (Node) ---
+node_modules/
+.npm/
+npm-debug.log
+build/
+
+# --- Dependencias de Backend (Python) ---
+__pycache__/
+venv/
+.venv/
+*.pyc
+
+# --- Archivos del IDE (VS Code) ---
+.vscode/
+
+# --- Archivos de Sistema (macOS) ---
+.DS_Store

@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+alembic
+psycopg2-binary # El conector de Python para PostgreSQL
+pydantic-settings # Para gestionar variables de entorno
+email-validator # Para validar correos electrónicos en Pydantic
