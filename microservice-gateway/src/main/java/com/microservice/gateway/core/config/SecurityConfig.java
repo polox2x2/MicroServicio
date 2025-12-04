@@ -19,6 +19,7 @@ public class SecurityConfig {
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
 
         http
+                .cors(org.springframework.security.config.Customizer.withDefaults())
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .addFilterBefore((exchange, chain) -> {
                     return ReactiveSecurityContextHolder.getContext()
@@ -39,6 +40,20 @@ public class SecurityConfig {
                         oauth2 -> oauth2.jwt(org.springframework.security.config.Customizer.withDefaults()));
 
         return http.build();
+    }
+
+    @Bean
+    public org.springframework.web.cors.reactive.CorsWebFilter corsWebFilter() {
+        org.springframework.web.cors.CorsConfiguration corsConfig = new org.springframework.web.cors.CorsConfiguration();
+        corsConfig.setAllowedOrigins(java.util.List.of("http://localhost:5173", "http://localhost:3000"));
+        corsConfig.setMaxAge(3600L);
+        corsConfig.addAllowedMethod("*");
+        corsConfig.addAllowedHeader("*");
+
+        org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource source = new org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfig);
+
+        return new org.springframework.web.cors.reactive.CorsWebFilter(source);
     }
 
     @Bean
